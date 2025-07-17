@@ -8,6 +8,7 @@ const slice = createSlice({
     access: localStorage.getItem("access"),
     refresh: localStorage.getItem("refresh"),
     isAuthenticated: false,
+    authChecked: false,
     user: {},
     loading: false,
     error: null,
@@ -40,6 +41,7 @@ const slice = createSlice({
     userLoadingFailed: (auth, action) => {
       auth.user = {};
       auth.loading = false;
+    
     },
 
     authFailed: (auth, action) => {
@@ -55,10 +57,12 @@ const slice = createSlice({
 
     authenticationVerified: (auth, action) => {
       auth.isAuthenticated = true;
+      auth.authChecked = true;
     },
 
     authenticationFailed: (auth, action) => {
       auth.isAuthenticated = false;
+      auth.authChecked = true;
     },
 
     loggedOut: (auth, action) => {
@@ -103,7 +107,7 @@ export const checkAuthenticated = () => async (dispatch) => {
       const response = await httpService.post(
         "/auth/jwt/verify/",
         data,
-        headers
+        { headers }
       );
 
       if (response.data.code !== "token_not_valid") {
@@ -253,7 +257,7 @@ export const verify = (uid, token) => async (dispatch) => {
   const body = { uid, token };
 
   try {
-    await httpService.post("/auth/users/activation/", body, headers);
+    await httpService.post("/auth/users/activation/", body,{ headers});
     dispatch({ type: "ACTIVATION_SUCCESS" });
   } catch (error) {
     dispatch({ type: "ACTIVATION_FAILED" });
@@ -268,7 +272,7 @@ export const reset_password = (email) => async (dispatch) => {
   const body = { email };
 
   try {
-    await httpService.post("/auth/users/reset_password/", body, headers);
+    await httpService.post("/auth/users/reset_password/", body, { headers });
     dispatch({ type: "RESET_PASSWORD_SUCCESS" });
   } catch (error) {
     dispatch({ type: "RESET_PASSWORD_FAILED" });
@@ -287,7 +291,7 @@ export const reset_password_confirm =
       await httpService.post(
         "/auth/users/reset_password_confirm/",
         body,
-        headers
+       { headers}
       );
       dispatch({ type: "RESET_PASSWORD_CONFIRM_SUCCESS" });
     } catch (error) {

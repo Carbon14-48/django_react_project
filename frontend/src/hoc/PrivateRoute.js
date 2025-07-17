@@ -1,11 +1,13 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
 
 const PrivateRoute = ({ children }) => {
-  // Exemple simple : on vérifie la présence d’un token JWT en localStorage
-  const token = localStorage.getItem("access_token");
+  const { isAuthenticated, authChecked } = useSelector((state) => state.auth);
 
-  return token ? children : <Navigate to="/login" replace />;
+  if (!authChecked) return <div>Loading...</div>;
+  if (!isAuthenticated) return <Navigate to="/login" replace />;
+  return children;
 };
 
 export default PrivateRoute;

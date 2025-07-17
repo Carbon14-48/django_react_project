@@ -1,33 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { loadUser } from "../store/auth";
 
 const ProfilePage = () => {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch();
+  const { user, loading, authChecked } = useSelector((state) => state.auth);
 
   useEffect(() => {
-    fetch("http://localhost:8000/api/accounts/me/", {
-      headers: {
-        "Content-Type": "application/json",
-        // If you use JWT token, add it here, for example:
-        // "Authorization": "Bearer " + localStorage.getItem("access_token")
-      },
-      credentials: "include", // if you use cookies for auth
-    })
-      .then((res) => {
-        if (!res.ok) throw new Error("Error fetching profile data");
-        return res.json();
-      })
-      .then((data) => {
-        setUser(data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.error(err);
-        setLoading(false);
-      });
-  }, []);
+    dispatch(loadUser());
+  }, [dispatch]);
 
-  if (loading) return <div>Loading...</div>;
+  if (!authChecked || loading) return <div>Loading...</div>;
   if (!user) return <div>Error loading profile.</div>;
 
   return (
@@ -47,9 +30,8 @@ const ProfilePage = () => {
       </p>
       <p>
         <strong>Member Since:</strong>{" "}
-        {new Date(user.date_joined).toLocaleDateString()}
+        {user.date_joined ? new Date(user.date_joined).toLocaleDateString() : ""}
       </p>
-      {/* Link to settings page */}
       <p>
         <a href="/settings">Edit Profile</a>
       </p>
@@ -58,4 +40,3 @@ const ProfilePage = () => {
 };
 
 export default ProfilePage;
-
