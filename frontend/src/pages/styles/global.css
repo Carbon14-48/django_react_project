@@ -1,0 +1,142 @@
+/* 🌙 Arrière-plan sombre global */
+body {
+  background-color: #121212;
+  color: white;
+  font-family: 'Segoe UI', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+/* Conteneur centré */
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Boutons personnalisés */
+.btn {
+  padding: 12px 24px;
+  font-weight: 600;
+  border-radius: 9999px;
+  cursor: pointer;
+  font-size: 1rem;
+  border: none;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+}
+
+/* ✅ Vert foncé */
+.btn-primary {
+  background-color: #009b75;
+  color: white;
+  box-shadow: 0 4px 6px rgba(0, 155, 117, 0.4);
+}
+
+.btn-primary:hover {
+  background-color: #007c5e;
+  box-shadow: 0 6px 10px rgba(0, 124, 94, 0.7);
+}
+
+/* ✅ Orange foncé */
+.btn-danger {
+  background-color: #f05a09;
+  color: white;
+}
+
+.btn-danger:hover {
+  background-color: #bf360c;
+}
+
+.btn-outline {
+  background-color: transparent;
+  border: 2px solid #888;
+  color: #ccc;
+}
+
+.btn-outline:hover {
+  background-color: #444;
+  color: white;
+}
+
+/* Centrage avec flexbox */
+.d-flex {
+  display: flex;
+}
+
+.flex-column {
+  flex-direction: column;
+}
+
+.justify-content-center {
+  justify-content: center;
+}
+
+.align-items-center {
+  align-items: center;
+}
+
+/* Marges */
+.mt-40 {
+  margin-top: 40px;
+}
+
+.mt-50 {
+  margin-top: 50px;
+}
+
+.mt-200 {
+  margin-top: 200px;
+}
+
+/* Textes et titres */
+.text-center {
+  text-align: center;
+}
+
+.title {
+  color: white;
+  margin-bottom: 1rem;
+  font-weight: 700;
+  font-size: 2rem;
+}
+
+.text-muted {
+  color: #aaa;
+}
+
+.fs-5 {
+  font-size: 1.25rem;
+}
+
+/* Fond sombre */
+.bg-dark {
+  background-color: #1e1e1e;
+  padding: 2rem;
+  border-radius: 12px;
+}
+
+/* Espace entre éléments flex */
+.gap {
+  gap: 1rem;
+}
+
+/* Classes supplémentaires */
+.rounded-pill {
+  border-radius: 9999px;
+}
+
+.px-4 {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+
+
+
+
+

@@ -197,14 +197,16 @@ DJOSER = {
     'ACTIVATION_URL': 'activate/{uid}/{token}',
     'SEND_ACTIVATION_EMAIL': True,
     'SOCIAL_AUTH_TOKEN_STRATEGY': 'djoser.social.token.jwt.TokenStrategy',
-    'SOCIAL_AUTH_ALLOWED_REDIRECT_URIS': ['http://localhost:8000/google', 'http://localhost:8000/facebook'],
+    'SOCIAL_AUTH_ALLOWED_REDIRECT_URIS': [
+        'http://localhost:8000/google',
+        'http://localhost:8000/facebook'
+    ],
     'SERIALIZERS': {
         'user_create': 'accounts.serializers.UserCreateSerializer',
-        'user': 'accounts.serializers.UserCreateSerializer',
-        'current_user': 'accounts.serializers.UserCreateSerializer',
-        'user_delete': 'djoser.serializers.UserDeleteSerializer'
+        'user': 'accounts.serializers.UserDetailSerializer',        # <-- Affichage public
+        'current_user': 'accounts.serializers.UserDetailSerializer', # <-- Profil connecté
+        'user_delete': 'djoser.serializers.UserDeleteSerializer',
     }
-
 }
 
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = os.environ.get('SOCIAL_AUTH_GOOGLE_OAUTH2_KEY')
