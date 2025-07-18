@@ -18,12 +18,72 @@ const Navbar = () => {
     dispatch(logout());
   };
 
+  const navStyle = {
+    backgroundColor: "#1e1e1e",
+    color: "#eee",
+    boxShadow: "0 2px 8px rgba(0,0,0,0.8)",
+  };
+
+  const brandStyle = {
+    color: "#a5d6a7",
+    fontWeight: "700",
+    fontSize: "1.4rem",
+    textDecoration: "none",
+  };
+
+  const brandHoverStyle = {
+    color: "#4caf50",
+  };
+
+  const navUlStyle = {
+    marginLeft: "auto",
+    display: "flex",
+    alignItems: "center",
+    gap: "1rem",
+    listStyleType: "none",
+    paddingLeft: 0,
+    marginBottom: 0,
+  };
+
+  // Style commun liens + bouton logout (sans bordure, fond, outline)
+  const navItemStyle = {
+    color: "#eee",
+    fontWeight: "600",
+    padding: "0.5rem 0.75rem",
+    cursor: "pointer",
+    textDecoration: "none",
+    transition: "color 0.3s ease",
+    background: "none",
+    border: "none",
+    outline: "none",
+    fontSize: "1rem",
+    fontFamily: "inherit",
+    boxShadow: "none",
+  };
+
+  const navItemHoverStyle = {
+    color: "#4caf50",
+    textDecoration: "none",
+  };
+
+  const [brandHover, setBrandHover] = React.useState(false);
+  const [hoveredLink, setHoveredLink] = React.useState(null);
+
   return (
-    <nav className="navbar navbar-expand-lg bg-body-tertiary">
-      <div className="container-fluid">
-        <Link className="navbar-brand" to="/">
+    <nav className="navbar navbar-expand-lg" style={navStyle}>
+      <div
+        className="container-fluid"
+        style={{ display: "flex", alignItems: "center" }}
+      >
+        <Link
+          to="/"
+          style={brandHover ? { ...brandStyle, ...brandHoverStyle } : brandStyle}
+          onMouseEnter={() => setBrandHover(true)}
+          onMouseLeave={() => setBrandHover(false)}
+        >
           Auth System
         </Link>
+
         <button
           className="navbar-toggler"
           type="button"
@@ -32,35 +92,77 @@ const Navbar = () => {
           aria-controls="navbarNav"
           aria-expanded="false"
           aria-label="Toggle navigation"
+          style={{ borderColor: "#333" }}
         >
-          <span className="navbar-toggler-icon"></span>
+          <span className="navbar-toggler-icon" style={{ filter: "invert(1)" }}></span>
         </button>
-        <div className="collapse navbar-collapse" id="navbarNav">
-          <ul className="navbar-nav">
-            <li className="nav-item">
-              <Link className="nav-link active" aria-current="page" to="/">
+
+        <div className="collapse navbar-collapse" id="navbarNav" style={{ flexGrow: 1 }}>
+          <ul style={navUlStyle}>
+            <li className="nav-item" style={{ listStyle: "none" }}>
+              <Link
+                to="/"
+                aria-current="page"
+                className="nav-link active"
+                style={
+                  hoveredLink === "home"
+                    ? { ...navItemStyle, ...navItemHoverStyle }
+                    : navItemStyle
+                }
+                onMouseEnter={() => setHoveredLink("home")}
+                onMouseLeave={() => setHoveredLink(null)}
+              >
                 Home
               </Link>
             </li>
 
             {isAuthenticated ? (
-              <li>
+              <li style={{ listStyle: "none" }}>
                 <button
-                  className="btn btn-link nav-link"
                   onClick={handleLogout}
+                  style={
+                    hoveredLink === "logout"
+                      ? { ...navItemStyle, ...navItemHoverStyle }
+                      : navItemStyle
+                  }
+                  onMouseEnter={() => setHoveredLink("logout")}
+                  onMouseLeave={() => setHoveredLink(null)}
+                  onFocus={() => setHoveredLink("logout")}
+                  onBlur={() => setHoveredLink(null)}
+                  type="button"
                 >
                   Logout
                 </button>
               </li>
             ) : (
               <>
-                <li className="nav-item">
-                  <Link className="nav-link" to="/login">
+                <li style={{ listStyle: "none" }}>
+                  <Link
+                    to="/login"
+                    className="nav-link"
+                    style={
+                      hoveredLink === "login"
+                        ? { ...navItemStyle, ...navItemHoverStyle }
+                        : navItemStyle
+                    }
+                    onMouseEnter={() => setHoveredLink("login")}
+                    onMouseLeave={() => setHoveredLink(null)}
+                  >
                     Login
                   </Link>
                 </li>
-                <li className="nav-item">
-                  <Link className="nav-link" to="/signup">
+                <li style={{ listStyle: "none" }}>
+                  <Link
+                    to="/signup"
+                    className="nav-link"
+                    style={
+                      hoveredLink === "signup"
+                        ? { ...navItemStyle, ...navItemHoverStyle }
+                        : navItemStyle
+                    }
+                    onMouseEnter={() => setHoveredLink("signup")}
+                    onMouseLeave={() => setHoveredLink(null)}
+                  >
                     Sign Up
                   </Link>
                 </li>
@@ -74,3 +176,7 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
+
+
+

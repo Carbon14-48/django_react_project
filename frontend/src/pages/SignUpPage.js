@@ -144,21 +144,27 @@ const SignUpPage = () => {
           background-color: #43a047;
           box-shadow: 0 6px 18px rgba(67, 160, 71, 0.8);
         }
+
+        /* Nouveau style : btn-google identique à btn-primary */
         .btn-google {
-          background-color: #db4437;
-          box-shadow: 0 4px 6px rgba(219, 68, 55, 0.4);
+          background-color: #4caf50;
+          box-shadow: 0 4px 12px rgba(76, 175, 80, 0.6);
+          margin-bottom: 15px;
+          border-radius: 50px;
+          font-weight: 700;
+          font-size: 1.1rem;
+          cursor: pointer;
+          color: white;
+          width: 100%;
+          display: block;
+          user-select: none;
+          transition: background-color 0.3s ease, transform 0.1s ease;
+          border: none;
+          padding: 14px;
         }
         .btn-google:hover {
-          background-color: #b3382b;
-          box-shadow: 0 6px 10px rgba(179, 56, 43, 0.6);
-        }
-        .btn-facebook {
-          background-color: #1877f2;
-          box-shadow: 0 4px 6px rgba(24, 119, 242, 0.4);
-        }
-        .btn-facebook:hover {
-          background-color: #135ecb;
-          box-shadow: 0 6px 10px rgba(19, 94, 203, 0.6);
+          background-color: #43a047;
+          box-shadow: 0 6px 18px rgba(67, 160, 71, 0.8);
         }
         a {
           color: #1a73e8;
