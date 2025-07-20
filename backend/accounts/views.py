@@ -44,7 +44,7 @@ class ChangePasswordView(APIView):
         new_password_confirm = request.data.get("new_password_confirm")
 
         if not current_password or not new_password or not new_password_confirm:
-            return Response({"detail": "Tous les champs sont requis."}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"detail": "Tous les champs sont necessaire."}, status=status.HTTP_400_BAD_REQUEST)
 
         if not user.check_password(current_password):
             return Response({"current_password": "Mot de passe actuel incorrect."}, status=status.HTTP_400_BAD_REQUEST)

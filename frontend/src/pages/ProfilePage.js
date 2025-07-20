@@ -198,7 +198,7 @@ const ProfilePage = () => {
           <button
             onClick={handleSubscribe}
             className="subscribe-btn"
-            aria-label="Subscribe for full access"
+            aria-label="Subscribe for full access ,No ads  and More "
           >
             Subscribe for Full Access
           </button>
