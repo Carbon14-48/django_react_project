@@ -15,6 +15,9 @@ import ResetPasswordPage from "./pages/ResetPasswordPage";
 import ResetPasswordConfirmPage from "./pages/ResetPasswordConfirmPage";
 import Facebook from "./pages/Facebook";
 import Google from "./pages/Google";
+import ArticlesPage from "./pages/ArticlesPage";
+import ArticleDetailPage from "./pages/ArticleDetailPage";
+
 
 import Dashboard from "./pages/Dashboard";
 import ProfilePage from "./pages/ProfilePage";
@@ -43,6 +46,8 @@ const App = () => {
           <Route path="/signup" element={<SignUpPage />} />
           <Route path="/activate/:uid/:token" element={<ActivateAccountPage />} />
           <Route path="/reset-password" element={<ResetPasswordPage />} />
+          <Route path="/articles" element={<ArticlesPage />} />
+<Route path="/articles/:id" element={<ArticleDetailPage />} />
           <Route path="/password/reset/confirm/:uid/:token" element={<ResetPasswordConfirmPage />} />
 
           <Route

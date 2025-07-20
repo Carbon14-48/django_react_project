@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loadUser } from "../store/auth";
+import httpService from "../utils/httpService"; // Make sure this exists
 
 const ProfilePage = () => {
   const dispatch = useDispatch();
@@ -9,6 +10,21 @@ const ProfilePage = () => {
   useEffect(() => {
     dispatch(loadUser());
   }, [dispatch]);
+
+  const handleSubscribe = async () => {
+    const access = localStorage.getItem("access");
+    const headers = access ? { Authorization: `JWT ${access}` } : {};
+    try {
+      const res = await httpService.post(
+        "/api/accounts/create-checkout-session/",
+        {},
+        { headers }
+      );
+      window.location.href = res.data.url;
+    } catch (err) {
+      alert("Error creating Stripe Checkout session!");
+    }
+  };
 
   if (!authChecked || loading) return <div>Loading...</div>;
   if (!user) return <div>Error loading profile.</div>;
@@ -97,6 +113,24 @@ const ProfilePage = () => {
           text-decoration: none;
           color: #121212;
         }
+        .subscribe-btn {
+          margin-top: 20px;
+          display: inline-block;
+          background: linear-gradient(90deg, #00c3ff 0%, #ffff1c 100%);
+          color: #121212;
+          font-weight: 700;
+          font-size: 1rem;
+          padding: 12px 28px;
+          border: none;
+          border-radius: 50px;
+          cursor: pointer;
+          box-shadow: 0 6px 15px rgba(0, 195, 255, 0.3);
+          transition: background 0.3s, box-shadow 0.3s;
+        }
+        .subscribe-btn:hover {
+          background: linear-gradient(90deg, #ffff1c 0%, #00c3ff 100%);
+          box-shadow: 0 8px 22px rgba(255,255,28,0.3);
+        }
         @media (max-width: 480px) {
           .profile-container {
             padding: 25px 20px;
@@ -114,7 +148,8 @@ const ProfilePage = () => {
           .profile-info-grid {
             grid-template-columns: 1fr;
           }
-          .edit-profile-btn {
+          .edit-profile-btn,
+          .subscribe-btn {
             width: 100%;
             text-align: center;
           }
@@ -157,10 +192,24 @@ const ProfilePage = () => {
         <a href="/settings" className="edit-profile-btn" role="button" tabIndex={0}>
           Edit Profile
         </a>
+
+        {/* Subscribe button for non-subscribers */}
+        {!user.is_subscriber ? (
+          <button
+            onClick={handleSubscribe}
+            className="subscribe-btn"
+            aria-label="Subscribe for full access"
+          >
+            Subscribe for Full Access
+          </button>
+        ) : (
+          <div style={{ marginTop: 20, color: "#81c784", fontWeight: 600 }}>
+            ✅ You are a subscriber!
+          </div>
+        )}
       </div>
     </>
   );
 };
 
 export default ProfilePage;
-

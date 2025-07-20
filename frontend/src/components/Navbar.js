@@ -45,7 +45,6 @@ const Navbar = () => {
     marginBottom: 0,
   };
 
-  // Style commun liens + bouton logout (sans bordure, fond, outline)
   const navItemStyle = {
     color: "#eee",
     fontWeight: "600",
@@ -115,7 +114,22 @@ const Navbar = () => {
                 Home
               </Link>
             </li>
-
+            {/* NEW: Articles link */}
+            <li className="nav-item" style={{ listStyle: "none" }}>
+              <Link
+                to="/articles"
+                className="nav-link"
+                style={
+                  hoveredLink === "articles"
+                    ? { ...navItemStyle, ...navItemHoverStyle }
+                    : navItemStyle
+                }
+                onMouseEnter={() => setHoveredLink("articles")}
+                onMouseLeave={() => setHoveredLink(null)}
+              >
+                Articles
+              </Link>
+            </li>
             {isAuthenticated ? (
               <li style={{ listStyle: "none" }}>
                 <button
@@ -176,7 +190,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-
-
-
-
