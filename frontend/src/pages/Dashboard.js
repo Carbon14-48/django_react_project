@@ -7,53 +7,60 @@ const Dashboard = () => {
   const isActive = (path) => location.pathname.endsWith(path);
 
   return (
-    <div style={{ display: "flex", minHeight: "100vh" }}>
-      {/* Sidebar */}
-      <nav
+    <div style={{ minHeight: "100vh", background: "#121212", color: "#eee", fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif" }}>
+      {/* Topbar */}
+      <header
         style={{
-          width: "200px",
           background: "#222",
-          color: "#eee",
-          padding: "20px",
-          minHeight: "100vh",
-          fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
+          padding: "15px 30px",
+          fontWeight: "700",
+          fontSize: "1.8rem",
+          color: "#a5d6a7",
+          boxShadow: "0 2px 6px rgba(0,0,0,0.7)",
         }}
       >
-        <h2 style={{ marginBottom: "1.5rem", fontWeight: "700", fontSize: "1.5rem", color: "#a5d6a7" }}>
-          Dashboard
-        </h2>
-        <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
-          {[
-            { to: "profile", label: "Profile" },
-            { to: "settings", label: "Settings" },
-          ].map(({ to, label }) => (
-            <li key={to} style={{ marginBottom: "1rem" }}>
-              <Link
-                to={to}
-                style={{
-                  color: isActive(to) ? "#4caf50" : "#ccc",
-                  fontWeight: isActive(to) ? "700" : "500",
-                  textDecoration: "none",
-                  fontSize: "1.1rem",
-                  transition: "color 0.3s ease",
-                  cursor: "pointer",
-                }}
-                onMouseEnter={(e) => {
-                  if (!isActive(to)) e.currentTarget.style.color = "#81c784"; // vert clair au hover
-                }}
-                onMouseLeave={(e) => {
-                  if (!isActive(to)) e.currentTarget.style.color = "#ccc"; // couleur grise par défaut
-                }}
-              >
-                {label}
-              </Link>
-            </li>
-          ))}
-        </ul>
+        Dashboard
+      </header>
+
+      {/* Navigation horizontal sous le topbar */}
+      <nav
+        style={{
+          background: "#1e1e1e",
+          padding: "10px 30px",
+          display: "flex",
+          gap: "30px",
+          fontWeight: "600",
+          fontSize: "1.1rem",
+        }}
+      >
+        {[
+          { to: "profile", label: "Profile" },
+          { to: "settings", label: "Settings" },
+        ].map(({ to, label }) => (
+          <Link
+            key={to}
+            to={to}
+            style={{
+              color: isActive(to) ? "#4caf50" : "#ccc",
+              textDecoration: "none",
+              borderBottom: isActive(to) ? "3px solid #4caf50" : "3px solid transparent",
+              paddingBottom: "4px",
+              transition: "color 0.3s ease, border-bottom 0.3s ease",
+            }}
+            onMouseEnter={(e) => {
+              if (!isActive(to)) e.currentTarget.style.color = "#81c784";
+            }}
+            onMouseLeave={(e) => {
+              if (!isActive(to)) e.currentTarget.style.color = "#ccc";
+            }}
+          >
+            {label}
+          </Link>
+        ))}
       </nav>
 
-      {/* Main content */}
-      <main style={{ flex: 1, padding: "20px" }}>
+      {/* Contenu principal */}
+      <main style={{ padding: "30px", minHeight: "calc(100vh - 112px)" /* topbar + nav height */ }}>
         <Outlet />
       </main>
     </div>
@@ -61,6 +68,7 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
+
 
 
 

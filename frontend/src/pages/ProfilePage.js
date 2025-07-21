@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loadUser } from "../store/auth";
-import httpService from "../utils/httpService"; // Make sure this exists
+import httpService from "../utils/httpService"; // Assure-toi que ce fichier existe
+import { Link } from "react-router-dom";
 
 const ProfilePage = () => {
   const dispatch = useDispatch();
@@ -91,45 +92,56 @@ const ProfilePage = () => {
           margin: 0;
           user-select: text;
         }
-        .edit-profile-btn {
-          margin-top: 35px;
-          display: inline-block;
-          background-color: #4caf50;
-          color: #121212;
+        /* Styles communs pour les boutons */
+        .btn-primary {
+          margin-top: 30px;
           padding: 12px 28px;
           font-weight: 700;
           font-size: 1rem;
           border: none;
           border-radius: 50px;
           cursor: pointer;
-          box-shadow: 0 6px 15px rgba(76,175,80,0.6);
+          box-shadow: 0 6px 15px rgba(76, 175, 80, 0.7);
           transition: background-color 0.3s ease, box-shadow 0.3s ease;
           text-decoration: none;
           user-select: none;
+          color: #121212;
+          background-color: #4caf50;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
+          min-width: 180px;
+          text-align: center;
+          font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        .edit-profile-btn:hover {
+        .btn-primary:hover,
+        .btn-primary:focus {
           background-color: #388e3c;
-          box-shadow: 0 8px 22px rgba(56,142,60,0.8);
+          box-shadow: 0 8px 22px rgba(56, 142, 60, 0.9);
+          outline: none;
+          color: #121212;
           text-decoration: none;
-          color: #121212;
         }
-        .subscribe-btn {
-          margin-top: 20px;
-          display: inline-block;
+        /* Couleur spéciale pour le bouton subscribe */
+        .btn-subscribe {
           background: linear-gradient(90deg, #00c3ff 0%, #ffff1c 100%);
+          box-shadow: 0 6px 15px rgba(0, 195, 255, 0.7);
           color: #121212;
-          font-weight: 700;
-          font-size: 1rem;
-          padding: 12px 28px;
-          border: none;
-          border-radius: 50px;
-          cursor: pointer;
-          box-shadow: 0 6px 15px rgba(0, 195, 255, 0.3);
-          transition: background 0.3s, box-shadow 0.3s;
         }
-        .subscribe-btn:hover {
+        .btn-subscribe:hover,
+        .btn-subscribe:focus {
           background: linear-gradient(90deg, #ffff1c 0%, #00c3ff 100%);
-          box-shadow: 0 8px 22px rgba(255,255,28,0.3);
+          box-shadow: 0 8px 22px rgba(255, 255, 28, 0.8);
+          outline: none;
+        }
+        /* Conteneur pour aligner les boutons côte à côte */
+        .buttons-container {
+          margin-top: 35px;
+          display: flex;
+          gap: 20px;
+          flex-wrap: wrap;
+          justify-content: flex-start;
         }
         @media (max-width: 480px) {
           .profile-container {
@@ -148,18 +160,25 @@ const ProfilePage = () => {
           .profile-info-grid {
             grid-template-columns: 1fr;
           }
-          .edit-profile-btn,
-          .subscribe-btn {
-            width: 100%;
-            text-align: center;
+          .buttons-container {
+            justify-content: center;
+          }
+          .btn-primary {
+            min-width: 100%;
           }
         }
       `}</style>
 
-      <div className="profile-container" role="main" aria-label="User profile information">
+      <div
+        className="profile-container"
+        role="main"
+        aria-label="User profile information"
+      >
         <header className="profile-header">
           <div className="profile-avatar" aria-hidden="true">
-            {user.first_name?.charAt(0).toUpperCase() || user.email?.charAt(0).toUpperCase() || "U"}
+            {user.first_name?.charAt(0).toUpperCase() ||
+              user.email?.charAt(0).toUpperCase() ||
+              "U"}
           </div>
           <h1 className="profile-name" tabIndex={0}>
             {user.first_name && user.last_name
@@ -189,24 +208,40 @@ const ProfilePage = () => {
           </p>
         </section>
 
-        <a href="/settings" className="edit-profile-btn" role="button" tabIndex={0}>
-          Edit Profile
-        </a>
-
-        {/* Subscribe button for non-subscribers */}
-        {!user.is_subscriber ? (
-          <button
-            onClick={handleSubscribe}
-            className="subscribe-btn"
-            aria-label="Subscribe for full access ,No ads  and More "
+        <div className="buttons-container">
+          <Link
+            to="/dashboard/settings"
+            className="btn-primary"
+            role="button"
+            tabIndex={0}
           >
-            Subscribe for Full Access
-          </button>
-        ) : (
-          <div style={{ marginTop: 20, color: "#81c784", fontWeight: 600 }}>
-            ✅ You are a subscriber!
-          </div>
-        )}
+            Edit Profile
+          </Link>
+
+          {!user.is_subscriber ? (
+            <button
+              onClick={handleSubscribe}
+              className="btn-primary btn-subscribe"
+              aria-label="Subscribe for full access, no ads and more"
+            >
+              Subscribe for Full Access
+            </button>
+          ) : (
+            <div
+              style={{
+                marginTop: 12,
+                color: "#81c784",
+                fontWeight: 600,
+                minWidth: 180,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              ✅ You are a subscriber!
+            </div>
+          )}
+        </div>
       </div>
     </>
   );

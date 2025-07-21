@@ -114,7 +114,23 @@ const Navbar = () => {
                 Home
               </Link>
             </li>
-            {/* NEW: Articles link */}
+
+            <li className="nav-item" style={{ listStyle: "none" }}>
+              <Link
+                to="/dashboard"
+                className="nav-link"
+                style={
+                  hoveredLink === "dashboard"
+                    ? { ...navItemStyle, ...navItemHoverStyle }
+                    : navItemStyle
+                }
+                onMouseEnter={() => setHoveredLink("dashboard")}
+                onMouseLeave={() => setHoveredLink(null)}
+              >
+                Dashboard
+              </Link>
+            </li>
+
             <li className="nav-item" style={{ listStyle: "none" }}>
               <Link
                 to="/articles"
@@ -130,6 +146,7 @@ const Navbar = () => {
                 Articles
               </Link>
             </li>
+
             {isAuthenticated ? (
               <li style={{ listStyle: "none" }}>
                 <button
