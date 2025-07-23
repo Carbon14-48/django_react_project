@@ -1,24 +1,18 @@
 from rest_framework.views import APIView
-from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
 from rest_framework import status, generics, permissions
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
 from .models import Article
 from .serializers import ArticleSerializer, UserDetailSerializer
+from django.contrib.auth import get_user_model
 import stripe
 from django.conf import settings
-from rest_framework.views import APIView
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.response import Response
-from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
-from django.conf import settings
-from django.contrib.auth import get_user_model
-import json
 
 User = get_user_model()
-
 stripe.api_key = settings.STRIPE_SECRET_KEY
-
 
 class CurrentUserView(APIView):
     permission_classes = [IsAuthenticated]
@@ -34,10 +28,14 @@ class CurrentUserView(APIView):
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+@method_decorator(csrf_exempt, name='dispatch')
 class ChangePasswordView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
+        print("ChangePasswordView CALLED")
+        print("Authorization header:", request.META.get("HTTP_AUTHORIZATION"))
+        print("User:", request.user)
         user = request.user
         current_password = request.data.get("current_password")
         new_password = request.data.get("new_password")
@@ -54,7 +52,6 @@ class ChangePasswordView(APIView):
 
         user.set_password(new_password)
         user.save()
-
         return Response({"detail": "Mot de passe changé avec succès."}, status=status.HTTP_200_OK)
 
 class ArticleListView(generics.ListAPIView):
@@ -70,24 +67,25 @@ class ArticleListView(generics.ListAPIView):
 class ArticleDetailView(generics.RetrieveAPIView):
     queryset = Article.objects.all()
     serializer_class = ArticleSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.AllowAny]
 
     def get_serializer_context(self):
         context = super().get_serializer_context()
         context["request"] = self.request
         return context
+
 class CreateStripeCheckoutSession(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
-        YOUR_DOMAIN = "http://localhost:3000"  # Update for production
+        YOUR_DOMAIN = "http://localhost:3000"
         try:
             checkout_session = stripe.checkout.Session.create(
                 payment_method_types=['card'],
                 line_items=[{
                     'price_data': {
                         'currency': 'usd',
-                        'unit_amount': 500,  # $5.00
+                        'unit_amount': 500,
                         'product_data': {'name': 'Premium Subscription'},
                     },
                     'quantity': 1,
@@ -101,9 +99,9 @@ class CreateStripeCheckoutSession(APIView):
             return Response({'id': checkout_session.id, 'url': checkout_session.url})
         except Exception as e:
             return Response({'error': str(e)}, status=400)
+
 @csrf_exempt
 def stripe_webhook(request):
-    import stripe
     payload = request.body
     sig_header = request.META.get('HTTP_STRIPE_SIGNATURE')
     event = None

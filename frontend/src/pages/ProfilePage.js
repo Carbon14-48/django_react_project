@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loadUser } from "../store/auth";
-import httpService from "../utils/httpService"; // Assure-toi que ce fichier existe
+import httpService from "../utils/httpService";
 import { Link } from "react-router-dom";
 
 const ProfilePage = () => {
@@ -92,7 +92,6 @@ const ProfilePage = () => {
           margin: 0;
           user-select: text;
         }
-        /* Styles communs pour les boutons */
         .btn-primary {
           margin-top: 30px;
           padding: 12px 28px;
@@ -123,7 +122,6 @@ const ProfilePage = () => {
           color: #121212;
           text-decoration: none;
         }
-        /* Couleur spéciale pour le bouton subscribe */
         .btn-subscribe {
           background: linear-gradient(90deg, #00c3ff 0%, #ffff1c 100%);
           box-shadow: 0 6px 15px rgba(0, 195, 255, 0.7);
@@ -135,7 +133,6 @@ const ProfilePage = () => {
           box-shadow: 0 8px 22px rgba(255, 255, 28, 0.8);
           outline: none;
         }
-        /* Conteneur pour aligner les boutons côte à côte */
         .buttons-container {
           margin-top: 35px;
           display: flex;
@@ -176,9 +173,7 @@ const ProfilePage = () => {
       >
         <header className="profile-header">
           <div className="profile-avatar" aria-hidden="true">
-            {user.first_name?.charAt(0).toUpperCase() ||
-              user.email?.charAt(0).toUpperCase() ||
-              "U"}
+            {(user.first_name?.charAt(0) || user.email?.charAt(0) || "U").toUpperCase()}
           </div>
           <h1 className="profile-name" tabIndex={0}>
             {user.first_name && user.last_name
@@ -189,7 +184,7 @@ const ProfilePage = () => {
 
         <section className="profile-info-grid" aria-label="User details">
           <strong>Username:</strong>
-          <p tabIndex={0}>{user.username || user.email}</p>
+          <p tabIndex={0}>{user.username || "-"}</p>
 
           <strong>Email:</strong>
           <p tabIndex={0}>{user.email}</p>
@@ -205,6 +200,11 @@ const ProfilePage = () => {
             {user.date_joined
               ? new Date(user.date_joined).toLocaleDateString()
               : "-"}
+          </p>
+
+          <strong>Subscription Status:</strong>
+          <p tabIndex={0} style={{ fontWeight: 700, color: user.is_subscriber ? "#81c784" : "#fbc02d" }}>
+            {user.is_subscriber ? "Active" : "Not Subscribed"}
           </p>
         </section>
 

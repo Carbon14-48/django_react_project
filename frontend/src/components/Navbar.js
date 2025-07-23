@@ -80,7 +80,7 @@ const Navbar = () => {
           onMouseEnter={() => setBrandHover(true)}
           onMouseLeave={() => setBrandHover(false)}
         >
-          Auth System
+          Articles Heaven
         </Link>
 
         <button
