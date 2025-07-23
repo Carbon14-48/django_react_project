@@ -1,35 +1,97 @@
-/*import React from "react";
+import React from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import Aurora from "../components/Aurora";
+import "../components/Aurora.css";
 
 const HomePage = () => {
   const { isAuthenticated } = useSelector((state) => state.auth);
 
   return (
-    <div className="container my-5">
-      <div className="p-5 text-center bg-body-tertiary rounded-3">
-        <h1 className="text-body-emphasis">Welcome to Auth System!</h1>
-        <p className="col-lg-8 mx-auto fs-5 text-muted">
-          This is an incredible auth system with production level features!
+    <div style={{ position: "relative", minHeight: "100vh", overflow: "hidden" }}>
+      <Aurora
+        colorStops={["#0f0", "#1e2b16", "#00ff88"]}
+        blend={0.35}
+        amplitude={0.85}
+        speed={0.4}
+      />
+      <div
+        className="home-container"
+        style={{
+          position: "relative",
+          zIndex: 1,
+          maxWidth: "440px",
+          margin: "80px auto",
+          background: "rgba(20,30,20,0.5)",
+          borderRadius: "16px",
+          padding: "40px 30px",
+          boxShadow: "0 10px 25px rgba(0,0,0,0.6)",
+          backdropFilter: "blur(16px) saturate(180%)",
+          WebkitBackdropFilter: "blur(16px) saturate(180%)",
+          border: "1px solid rgba(60,255,100,0.25)",
+          textAlign: "center",
+          userSelect: "none",
+        }}
+      >
+        <h1 className="title" style={{
+          fontWeight: 700,
+          fontSize: "2rem",
+          color: "#6fff6f",
+          textShadow: "0 0 8px #1a5,0 0 18px #1e2b16",
+          marginBottom: 15
+        }}>Welcome to Articles Heaven!</h1>
+        <p style={{ color: "#ccc", fontSize: "1rem", marginBottom: 25 }}>
+        
         </p>
-
         {!isAuthenticated && (
           <>
-            <p>
-              Click Sign In to login to your account or Sign Up to create a new
-              account.
+            <p style={{ color: "#aaffcc" }}>
+            Where Stories live , and Legends Login 
             </p>
-
-            <div className="d-inline-flex gap-2 mb-5">
+            <div className="btn-group" style={{
+              display: "flex", justifyContent: "center", gap: 20, marginTop: 30
+            }}>
               <Link
-                className="d-inline-flex align-items-center btn btn-primary btn-lg px-4 rounded-pill"
+                className="btn btn-primary"
                 to="/login"
+                style={{
+                  flex: 1,
+                  maxWidth: 150,
+                  padding: "14px 0",
+                  fontWeight: 700,
+                  fontSize: "1.05rem",
+                  borderRadius: 50,
+                  cursor: "pointer",
+                  textDecoration: "none",
+                  background: "rgba(60,255,100,0.8)",
+                  color: "#181818",
+                  border: "none",
+                  boxShadow: "0 4px 12px rgba(40,255,120,0.5)",
+                  backdropFilter: "blur(2px)",
+                  transition: "all 0.22s"
+                }}
               >
                 Sign In
               </Link>
               <Link
-                className="btn btn-outline-secondary btn-lg px-4 rounded-pill"
+                className="btn btn-outline"
                 to="/signup"
+                style={{
+                  flex: 1,
+                  maxWidth: 150,
+                  padding: "14px 0",
+                  fontWeight: 700,
+                  fontSize: "1.05rem",
+                  borderRadius: 50,
+                  cursor: "pointer",
+                  textDecoration: "none",
+                  background: "rgba(18,30,20,0.3)",
+                  color: "#48ff8a",
+                  border: "2px solid #48ff8a",
+                  boxShadow: "none",
+                  backdropFilter: "blur(2px)",
+                  transition: "all 0.22s"
+                }}
               >
                 Sign Up
               </Link>
@@ -38,136 +100,6 @@ const HomePage = () => {
         )}
       </div>
     </div>
-  );
-};
-
-export default HomePage;*/
-import React from "react";
-import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
-
-const HomePage = () => {
-  const { isAuthenticated } = useSelector((state) => state.auth);
-
-  return (
-    <>
-      <style>{`
-        * {
-          box-sizing: border-box;
-        }
-        body {
-          margin: 0;
-          background-color: #121212;
-          font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-          color: #eee;
-        }
-        .home-container {
-          max-width: 450px;
-          margin: 80px auto;
-          background: #1e1e1e;
-          border-radius: 12px;
-          padding: 40px 30px;
-          box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-          text-align: center;
-          user-select: none;
-        }
-        h1.title {
-          font-weight: 700;
-          font-size: 2rem;
-          color: #a5d6a7;
-          text-shadow: 0 0 5px #4caf50aa;
-          margin-bottom: 15px;
-        }
-        p {
-          color: #ccc;
-          font-size: 1rem;
-          margin-bottom: 25px;
-          max-width: 600px;
-          margin-left: auto;
-          margin-right: auto;
-        }
-        .btn-group {
-          display: flex;
-          justify-content: center;
-          gap: 20px;
-          margin-top: 30px;
-        }
-        a.btn {
-          flex: 1;
-          max-width: 150px;
-          padding: 14px 0;
-          font-weight: 700;
-          font-size: 1.05rem;
-          border-radius: 50px;
-          cursor: pointer;
-          text-decoration: none;
-          display: inline-block;
-          user-select: none;
-          transition: background-color 0.3s ease, color 0.3s ease;
-          box-shadow: 0 4px 12px rgba(76, 175, 80, 0.6);
-        }
-        a.btn-primary {
-          background-color: #4caf50;
-          color: white;
-          border: none;
-        }
-        a.btn-primary:hover {
-          background-color: #43a047;
-          box-shadow: 0 6px 18px rgba(67, 160, 71, 0.8);
-          color: white;
-        }
-        a.btn-outline {
-          background-color: transparent;
-          color: #4caf50;
-          border: 2px solid #4caf50;
-          box-shadow: none;
-        }
-        a.btn-outline:hover {
-          background-color: #4caf50;
-          color: white;
-          box-shadow: 0 6px 18px rgba(67, 160, 71, 0.8);
-        }
-        @media (max-width: 480px) {
-          .home-container {
-            margin: 60px 15px;
-            padding: 30px 20px;
-          }
-          h1.title {
-            font-size: 1.6rem;
-          }
-          a.btn {
-            max-width: 120px;
-            font-size: 1rem;
-            padding: 12px 0;
-          }
-        }
-      `}</style>
-
-      <div className="home-container">
-        <h1 className="title">Welcome to Auth System!</h1>
-        <p>
-          This is an incredible auth system with production level features!
-        </p>
-
-        {!isAuthenticated && (
-          <>
-            <p>
-              Click Sign In to login to your account or Sign Up to create a new
-              account.
-            </p>
-
-            <div className="btn-group">
-              <Link className="btn btn-primary" to="/login">
-                Sign In
-              </Link>
-              <Link className="btn btn-outline" to="/signup">
-                Sign Up
-              </Link>
-            </div>
-          </>
-        )}
-      </div>
-    </>
   );
 };
 

@@ -1,38 +1,51 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-
-import { checkAuthenticated, loadUser, logout } from "../store/auth";
+import { logout } from "../store/auth";
 
 const Navbar = () => {
   const dispatch = useDispatch();
 
-  const { isAuthenticated } = useSelector((state) => state.auth);
+  // Always call hooks first, before any conditional returns
+  const [brandHover, setBrandHover] = React.useState(false);
+  const [hoveredLink, setHoveredLink] = React.useState(null);
 
-  useEffect(() => {
-    dispatch(checkAuthenticated());
-    isAuthenticated && dispatch(loadUser());
-  }, [dispatch, isAuthenticated]);
+  // Get authChecked and isAuthenticated from Redux store
+  const { isAuthenticated, authChecked } = useSelector((state) => state.auth);
+
+  // Wait for auth check to finish before rendering
+  if (!authChecked) return null; // Or a spinner if you prefer
 
   const handleLogout = () => {
     dispatch(logout());
   };
 
+  // GLASSY, TRANSPARENT NAVBAR STYLE!
   const navStyle = {
-    backgroundColor: "#1e1e1e",
+    background: "rgba(10,22,10,0.14)", // subtle glassy green-black
+    backdropFilter: "blur(10px) saturate(180%)",
+    WebkitBackdropFilter: "blur(10px) saturate(180%)",
+    boxShadow: "0 2px 24px 0 rgba(0,0,0,0.10)", // minimal shadow, not a "bar"
+    borderBottom: "1px solid rgba(60,255,100,0.08)",
     color: "#eee",
-    boxShadow: "0 2px 8px rgba(0,0,0,0.8)",
+    padding: "0.5rem 2vw",
+    position: "sticky",
+    top: 0,
+    zIndex: 999,
+    transition: "background 0.3s"
   };
 
   const brandStyle = {
-    color: "#a5d6a7",
+    color: "#6fff6f",
     fontWeight: "700",
     fontSize: "1.4rem",
     textDecoration: "none",
+    letterSpacing: "0.03em",
+    transition: "color 0.3s"
   };
 
   const brandHoverStyle = {
-    color: "#4caf50",
+    color: "#bbffbb"
   };
 
   const navUlStyle = {
@@ -51,22 +64,21 @@ const Navbar = () => {
     padding: "0.5rem 0.75rem",
     cursor: "pointer",
     textDecoration: "none",
-    transition: "color 0.3s ease",
+    transition: "color 0.3s, background 0.2s",
     background: "none",
     border: "none",
     outline: "none",
     fontSize: "1rem",
     fontFamily: "inherit",
     boxShadow: "none",
+    borderRadius: "8px"
   };
 
   const navItemHoverStyle = {
-    color: "#4caf50",
+    color: "#2fff8a",
+    background: "rgba(60,255,100,0.08)",
     textDecoration: "none",
   };
-
-  const [brandHover, setBrandHover] = React.useState(false);
-  const [hoveredLink, setHoveredLink] = React.useState(null);
 
   return (
     <nav className="navbar navbar-expand-lg" style={navStyle}>

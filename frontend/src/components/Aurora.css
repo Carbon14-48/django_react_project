@@ -1,0 +1,8 @@
+.aurora-container {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none; /* ensures content above is clickable */
+  }

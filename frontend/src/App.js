@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { Provider, useDispatch } from "react-redux";
+import { Provider, useDispatch, useSelector } from "react-redux";
 
 import configureStore from "./store/configureStore";
 import { checkAuthenticated, loadUser } from "./store/auth";
@@ -18,7 +18,6 @@ import Google from "./pages/Google";
 import ArticlesPage from "./pages/ArticlesPage";
 import ArticleDetailPage from "./pages/ArticleDetailPage";
 
-
 import Dashboard from "./pages/Dashboard";
 import ProfilePage from "./pages/ProfilePage";
 import SettingsPage from "./pages/SettingsPage";
@@ -29,11 +28,24 @@ const store = configureStore();
 
 const App = () => {
   const dispatch = useDispatch();
+  const { isAuthenticated, authChecked } = useSelector((state) => state.auth);
 
+  // Only check authentication on mount
   useEffect(() => {
     dispatch(checkAuthenticated());
-    dispatch(loadUser());
   }, [dispatch]);
+
+  // Only load user if authenticated and after authChecked is true
+  useEffect(() => {
+    if (authChecked && isAuthenticated) {
+      dispatch(loadUser());
+    }
+  }, [dispatch, authChecked, isAuthenticated]);
+
+  if (!authChecked) {
+    // Optionally show a spinner here
+    return null;
+  }
 
   return (
     <Router>
@@ -47,7 +59,7 @@ const App = () => {
           <Route path="/activate/:uid/:token" element={<ActivateAccountPage />} />
           <Route path="/reset-password" element={<ResetPasswordPage />} />
           <Route path="/articles" element={<ArticlesPage />} />
-<Route path="/articles/:id" element={<ArticleDetailPage />} />
+          <Route path="/articles/:id" element={<ArticleDetailPage />} />
           <Route path="/password/reset/confirm/:uid/:token" element={<ResetPasswordConfirmPage />} />
 
           <Route

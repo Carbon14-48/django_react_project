@@ -7,7 +7,7 @@ const slice = createSlice({
   initialState: {
     access: localStorage.getItem("access"),
     refresh: localStorage.getItem("refresh"),
-    isAuthenticated: false,
+    isAuthenticated: null,
     authChecked: false,
     user: {},
     loading: false,
@@ -110,10 +110,18 @@ export const checkAuthenticated = () => async (dispatch) => {
         { headers }
       );
 
-      if (response.data.code !== "token_not_valid") {
-        await dispatch(authenticationVerified());
+      // If backend says token is NOT valid, remove tokens!
+      if (response.data.code && response.data.code === "token_not_valid") {
+        localStorage.removeItem("access");
+        localStorage.removeItem("refresh");
+        dispatch(authenticationFailed());
+      } else {
+        dispatch(authenticationVerified());
       }
     } catch (error) {
+      // On any error, remove tokens!
+      localStorage.removeItem("access");
+      localStorage.removeItem("refresh");
       dispatch(authenticationFailed());
     }
   } else {
