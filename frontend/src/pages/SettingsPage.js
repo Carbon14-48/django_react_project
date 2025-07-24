@@ -29,13 +29,9 @@ const SettingsPage = () => {
         setUsername(res.data.username || res.data.email || "");
         setLoading(false);
       })
-      .catch((err) => {
-        setLoading(false);
-      });
-    // eslint-disable-next-line
+      .catch(() => setLoading(false));
   }, []);
 
-  // Username change
   const handleUsernameUpdate = async (e) => {
     e.preventDefault();
     setUsernameMsg(null);
@@ -54,7 +50,6 @@ const SettingsPage = () => {
     }
   };
 
-  // Password change
   const handlePwdUpdate = async (e) => {
     e.preventDefault();
     setPwdMsg(null);
@@ -76,12 +71,13 @@ const SettingsPage = () => {
     }
   };
 
-  if (loading)
+  if (loading) {
     return (
       <div className="loading">
         <p>Loading...</p>
       </div>
     );
+  }
 
   return (
     <>
@@ -93,66 +89,83 @@ const SettingsPage = () => {
           margin-top: 60px;
         }
         .settings-card {
-          background: #1e1e1e;
+          background: #1f1f1f;
           border-radius: 12px;
           padding: 35px 40px 28px;
-          box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+          box-shadow: 0 12px 28px rgba(0, 0, 0, 0.6);
           margin-bottom: 32px;
-          min-width: 350px;
-          max-width: 430px;
+          width: 100%;
+          max-width: 480px;
         }
         h2 {
-          margin-bottom: 20px;
+          margin-bottom: 24px;
           font-weight: 700;
-          font-size: 1.4rem;
+          font-size: 1.5rem;
           color: #a5d6a7;
+          text-align: center;
+        }
+        form {
+          display: flex;
+          flex-direction: column;
         }
         label {
           margin-bottom: 6px;
           font-weight: 600;
-          font-size: 0.98rem;
-          color: #b0b0b0;
+          font-size: 0.95rem;
+          color: #cfcfcf;
         }
         input {
-          background-color: #000;
-          border: 1.8px solid #333;
+          background-color: #121212;
+          border: 1.5px solid #444;
           border-radius: 6px;
-          padding: 12px 15px;
-          margin-bottom: 16px;
-          color: #eee;
-          font-size: 1rem;
+          padding: 12px 14px;
+          margin-bottom: 14px;
+          color: #f1f1f1;
+          font-size: 0.95rem;
+          outline: none;
+          transition: border 0.3s;
+        }
+        input:focus {
+          border-color: #4caf50;
         }
         .error-message {
-          color: #e57373;
+          color: #ef5350;
           font-size: 0.88rem;
           margin-top: -8px;
-          margin-bottom: 10px;
+          margin-bottom: 12px;
         }
         .message {
           font-weight: 600;
-          margin-bottom: 15px;
+          margin-bottom: 14px;
           color: #81c784;
+          font-size: 0.95rem;
         }
         .btn {
           padding: 12px;
-          background-color: #4caf50;
+          background: linear-gradient(135deg, #43a047, #388e3c);
           border: none;
           border-radius: 8px;
-          color: white;
-          font-weight: 700;
-          font-size: 1.1rem;
+          color: #fff;
+          font-weight: bold;
+          font-size: 1rem;
           cursor: pointer;
-          width: 100%;
+          transition: background 0.3s ease, transform 0.2s ease;
+        }
+        .btn:hover {
+          background: linear-gradient(135deg, #4caf50, #43a047);
+        }
+        .btn:active {
+          transform: scale(0.97);
         }
         .hint {
-          color: #b0b0b0;
-          font-size: 0.97rem;
-          margin-bottom: 18px;
+          color: #aaaaaa;
+          font-size: 0.87rem;
           margin-top: -8px;
+          margin-bottom: 14px;
         }
       `}</style>
+
       <div className="settings-wrapper">
-        {/* Username Section */}
         <div className="settings-card">
           <h2>Change Username</h2>
           <form onSubmit={handleUsernameUpdate} autoComplete="off">
@@ -162,7 +175,7 @@ const SettingsPage = () => {
               name="username"
               type="text"
               value={username}
-              onChange={e => setUsername(e.target.value)}
+              onChange={(e) => setUsername(e.target.value)}
               autoComplete="username"
             />
             {(username === "" || username.includes("@")) && (
@@ -176,7 +189,6 @@ const SettingsPage = () => {
           </form>
         </div>
 
-        {/* Password Section */}
         <div className="settings-card">
           <h2>Change Password</h2>
           <form onSubmit={handlePwdUpdate} autoComplete="off">
@@ -186,7 +198,9 @@ const SettingsPage = () => {
               name="current_password"
               type="password"
               value={pwdForm.current_password}
-              onChange={e => setPwdForm({ ...pwdForm, current_password: e.target.value })}
+              onChange={(e) =>
+                setPwdForm({ ...pwdForm, current_password: e.target.value })
+              }
               autoComplete="current-password"
             />
             {pwdErr.current_password && (
@@ -199,7 +213,9 @@ const SettingsPage = () => {
               name="new_password"
               type="password"
               value={pwdForm.new_password}
-              onChange={e => setPwdForm({ ...pwdForm, new_password: e.target.value })}
+              onChange={(e) =>
+                setPwdForm({ ...pwdForm, new_password: e.target.value })
+              }
               autoComplete="new-password"
             />
             {pwdErr.new_password && (
@@ -212,7 +228,9 @@ const SettingsPage = () => {
               name="new_password_confirm"
               type="password"
               value={pwdForm.new_password_confirm}
-              onChange={e => setPwdForm({ ...pwdForm, new_password_confirm: e.target.value })}
+              onChange={(e) =>
+                setPwdForm({ ...pwdForm, new_password_confirm: e.target.value })
+              }
               autoComplete="new-password"
             />
             {pwdErr.new_password_confirm && (
